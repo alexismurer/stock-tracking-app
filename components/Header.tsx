@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import NavItems from "./NavItems";
-import UserDropdown from "./UserDropdown";
+import { Suspense } from "react";
+import MarketSwitch from "./MarketSwitch";
 
 const Header = () => {
   return (
@@ -16,10 +16,9 @@ const Header = () => {
             className="h-8 w-auto cursor-pointer"
           />
         </Link>
-        <nav className="hidden sm:block">
-          <NavItems />
-        </nav>
-        <UserDropdown />
+        <Suspense>
+          <MarketSwitch />
+        </Suspense>
       </div>
     </header>
   );

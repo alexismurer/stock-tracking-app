@@ -1,9 +1,3 @@
-export const NAV_ITEMS = [
-  { href: "/", label: "Dashboard" },
-  { href: "/search", label: "Search" },
-  // { href: '/watchlist', label: 'Watchlist' },
-];
-
 // Sign-up form select options
 export const INVESTMENT_GOALS = [
   { value: "Growth", label: "Growth" },
@@ -152,7 +146,7 @@ export const MARKET_DATA_WIDGET_CONFIG = {
         { name: "NASDAQ:AAPL", displayName: "Apple" },
         { name: "NASDAQ:GOOGL", displayName: "Alphabet" },
         { name: "NASDAQ:MSFT", displayName: "Microsoft" },
-        { name: "NASDAQ:FB", displayName: "Meta Platforms" },
+        { name: "NASDAQ:META", displayName: "Meta Platforms" },
         { name: "NYSE:ORCL", displayName: "Oracle Corp" },
         { name: "NASDAQ:INTC", displayName: "Intel Corp" },
       ],
@@ -169,6 +163,134 @@ export const MARKET_DATA_WIDGET_CONFIG = {
     },
   ],
 };
+
+// French market (Euronext Paris)
+const FR_SYMBOL_GROUPS = [
+  {
+    name: "Financial",
+    symbols: [
+      { s: "EURONEXT:BNP", d: "BNP Paribas" },
+      { s: "EURONEXT:CS", d: "AXA" },
+      { s: "EURONEXT:GLE", d: "Societe Generale" },
+      { s: "EURONEXT:ACA", d: "Credit Agricole" },
+      { s: "EURONEXT:AMUN", d: "Amundi" },
+      { s: "EURONEXT:WLN", d: "Worldline" },
+    ],
+  },
+  {
+    name: "Technology",
+    symbols: [
+      { s: "EURONEXT:SU", d: "Schneider Electric" },
+      { s: "EURONEXT:DSY", d: "Dassault Systemes" },
+      { s: "EURONEXT:CAP", d: "Capgemini" },
+      { s: "EURONEXT:STMPA", d: "STMicroelectronics" },
+      { s: "EURONEXT:HO", d: "Thales" },
+      { s: "EURONEXT:SOP", d: "Sopra Steria" },
+    ],
+  },
+  {
+    name: "Luxury & Consumer",
+    symbols: [
+      { s: "EURONEXT:MC", d: "LVMH" },
+      { s: "EURONEXT:RMS", d: "Hermes" },
+      { s: "EURONEXT:OR", d: "L'Oreal" },
+      { s: "EURONEXT:KER", d: "Kering" },
+      { s: "EURONEXT:RI", d: "Pernod Ricard" },
+      { s: "EURONEXT:BN", d: "Danone" },
+    ],
+  },
+  {
+    name: "Industry & Energy",
+    symbols: [
+      { s: "EURONEXT:TTE", d: "TotalEnergies" },
+      { s: "EURONEXT:AIR", d: "Airbus" },
+      { s: "EURONEXT:SAF", d: "Safran" },
+      { s: "EURONEXT:AI", d: "Air Liquide" },
+      { s: "EURONEXT:DG", d: "Vinci" },
+    ],
+  },
+];
+
+export const FR_MARKET_OVERVIEW_WIDGET_CONFIG = {
+  ...MARKET_OVERVIEW_WIDGET_CONFIG,
+  tabs: FR_SYMBOL_GROUPS.map(({ name, symbols }) => ({ title: name, symbols })),
+};
+
+// The stock heatmap widget has no French data source, so France gets a CAC 40 chart instead
+export const FR_INDEX_CHART_WIDGET_CONFIG = {
+  symbol: "EURONEXT:PX1",
+  interval: "D",
+  range: "12M",
+  style: 3,
+  theme: "dark",
+  locale: "en",
+  timezone: "Europe/Paris",
+  allow_symbol_change: false,
+  hide_side_toolbar: true,
+  hide_volume: true,
+  save_image: false,
+  backgroundColor: "#141414",
+  gridColor: "#141414",
+  width: "100%",
+  height: 600,
+};
+
+// TradingView's French news feeds are sparse and stale, so France shows its economic calendar instead
+export const FR_ECONOMIC_CALENDAR_WIDGET_CONFIG = {
+  colorTheme: "dark",
+  isTransparent: true,
+  locale: "en",
+  countryFilter: "fr",
+  importanceFilter: "-1,0,1",
+  width: "100%",
+  height: 600,
+};
+
+export const FR_MARKET_DATA_WIDGET_CONFIG = {
+  ...MARKET_DATA_WIDGET_CONFIG,
+  symbolsGroups: FR_SYMBOL_GROUPS.map(({ name, symbols }) => ({
+    name,
+    symbols: symbols.map(({ s, d }) => ({ name: s, displayName: d })),
+  })),
+};
+
+export const MARKETS = {
+  fr: {
+    label: "France",
+    overview: FR_MARKET_OVERVIEW_WIDGET_CONFIG,
+    featured: {
+      title: "CAC 40",
+      widget: "advanced-chart",
+      config: FR_INDEX_CHART_WIDGET_CONFIG,
+    },
+    news: {
+      title: "Economic Calendar",
+      widget: "events",
+      config: FR_ECONOMIC_CALENDAR_WIDGET_CONFIG,
+    },
+    marketData: { title: "Stocks", config: FR_MARKET_DATA_WIDGET_CONFIG },
+  },
+  us: {
+    label: "United States",
+    overview: MARKET_OVERVIEW_WIDGET_CONFIG,
+    featured: {
+      title: "Stock Heatmap",
+      widget: "stock-heatmap",
+      config: HEATMAP_WIDGET_CONFIG,
+    },
+    news: {
+      title: undefined,
+      widget: "timeline",
+      config: TOP_STORIES_WIDGET_CONFIG,
+    },
+    marketData: { title: undefined, config: MARKET_DATA_WIDGET_CONFIG },
+  },
+};
+
+export type Market = keyof typeof MARKETS;
+
+export const toMarket = (value?: string | string[]): Market =>
+  value === "us" ? "us" : "fr";
 
 export const SYMBOL_INFO_WIDGET_CONFIG = (symbol: string) => ({
   symbol: symbol.toUpperCase(),

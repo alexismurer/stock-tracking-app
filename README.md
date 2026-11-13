@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Signalist — Stock Market Dashboard
 
-## Getting Started
+**French and US markets at a glance.**
 
-First, run the development server:
+A dark, real-time stock dashboard built on TradingView widgets. Flip between the Paris and US markets with one switch and get live quotes, charts and the market's pulse on a single page.
+
+![France](docs/screenshots/france.jpg)
+
+| France: calendar and stocks | United States |
+| --- | --- |
+| ![France calendar and stocks](docs/screenshots/france-calendar.jpg) | ![United States](docs/screenshots/united-states.jpg) |
+
+## Features
+
+- **Market switch**: France (default) or United States, kept in the URL (`?market=us`) so a view can be shared
+- **France**: 23 Euronext Paris companies across Financial, Technology, Luxury & Consumer and Industry & Energy, a one-year CAC 40 chart and the French economic calendar
+- **United States**: major NYSE and Nasdaq names, an S&P 500 heatmap by sector and the latest market stories
+- **Live quotes table**: price, change, open, high, low and previous close for every company
+- **No sign-up**: everything is public, with no account or API key needed
+
+TradingView's heatmap and news widgets have no usable French data, so France gets the CAC 40 chart and the economic calendar in those slots.
+
+## Tech stack
+
+Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · TradingView widgets
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Companies and widget settings for both markets live in `lib/constants.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | Lint the project |
